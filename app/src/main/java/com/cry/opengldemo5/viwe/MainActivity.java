@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
                         WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE);
             }
         });
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PhotoAlbumActivity.class);
-                startActivity(intent);
-            }
-        });
+//        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, PhotoAlbumActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void startWallpaper() {
