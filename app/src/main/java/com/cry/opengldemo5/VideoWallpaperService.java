@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.cry.opengldemo5.wallpaper.WallpaperInfo;
+import com.cry.opengldemo5.wallpaper.WallpaperInfoManager;
+
 import java.io.IOException;
 
 /**
@@ -76,11 +79,16 @@ public class VideoWallpaperService extends WallpaperService {
         }
 
         private void play(SurfaceHolder holder) {
+            WallpaperInfo wallpaperInfo = WallpaperInfoManager.getInstance().getCurrentWallpaperInfo();
             mediaPlayer.setSurface(holder.getSurface());
             try {
-                AssetManager aManager = getApplicationContext().getAssets();
-                AssetFileDescriptor fileDescriptor = aManager.openFd("video/video2.mp4");
-                mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
+                if (wallpaperInfo.mVideoSource == WallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
+                    AssetManager aManager = getApplicationContext().getAssets();
+                    AssetFileDescriptor fileDescriptor = aManager.openFd(wallpaperInfo.mVideoPath);
+                    mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
+                } else {
+                    mediaPlayer.setDataSource(wallpaperInfo.mVideoPath);
+                }
                 //循环播放我们的视频
                 mediaPlayer.setLooping(true);
                 //默认将音量设置成最小
@@ -94,8 +102,7 @@ public class VideoWallpaperService extends WallpaperService {
     }
 
     public static void startWallpaper(Context context) {
-        Intent intent = new Intent(
-                WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                 new ComponentName(context, VideoWallpaperService.class));
         context.startActivity(intent);

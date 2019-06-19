@@ -85,7 +85,11 @@ public class WallpaperActivity extends AppCompatActivity {
             mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
             mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
         } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-
+            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video1.mp4"));
+            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video2.mp4"));
+            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video3.mp4"));
+            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video4.mp4"));
+            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video5.mp4"));
         }
     }
 
@@ -115,6 +119,10 @@ public class WallpaperActivity extends AppCompatActivity {
 
     private WallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
         return WallpaperInfo.createImageWallpaperInfo(bitmap);
+    }
+
+    private WallpaperInfo createVideoWallpaperInfo(String videoName) {
+        return WallpaperInfo.createVideoWallpaperInfo(videoName, WallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS);
     }
 
     private Bitmap getBitmap(int imgResId) {

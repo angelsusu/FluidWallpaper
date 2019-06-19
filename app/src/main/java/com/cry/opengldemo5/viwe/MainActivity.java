@@ -31,14 +31,15 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startWallpaper();
+                WallpaperActivity.startWallpaperActivity(MainActivity.this,
+                        WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE);
             }
         });
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WallpaperActivity.startWallpaperActivity(MainActivity.this,
-                        WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE);
+                        WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO);
             }
         });
 //        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
@@ -48,13 +49,5 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
-    }
-
-    private void startWallpaper() {
-        Intent intent = new Intent(
-                WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                new ComponentName(this, MyWallpaperService.class));
-        startActivity(intent);
     }
 }
