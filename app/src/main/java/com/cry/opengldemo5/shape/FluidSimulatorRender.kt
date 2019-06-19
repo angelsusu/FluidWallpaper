@@ -1,6 +1,8 @@
 package com.cry.opengldemo5.shape
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.opengl.GLES30
 import android.opengl.GLUtils
 import android.util.Log
@@ -8,6 +10,7 @@ import android.view.MotionEvent
 import com.cry.opengldemo5.render.DealTouchEvent
 import com.cry.opengldemo5.render.GLESUtils
 import com.cry.opengldemo5.render.ViewGLRender
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -438,7 +441,14 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 //            val options = BitmapFactory.Options()
 //            options.inScaled = false   // No pre-scaling
 //            val bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.test_wallpaper_six)
-            val bitmap = LiveWallpaperInfoManager.getInstance().currentWallpaperInfo?.mImgBitmap
+            val liveWallpaperInfo = LiveWallpaperInfoManager.getInstance().currentWallpaperInfo
+            var bitmap: Bitmap? = null
+            if (liveWallpaperInfo.mSource == LiveWallpaperInfo.Source.SOURCE_ASSETS) {
+                bitmap = BitmapFactory.decodeResource(mContext.getResources(), liveWallpaperInfo.mResourcesId)
+            } else {
+                bitmap = BitmapFactory.decodeFile(liveWallpaperInfo.mPath);
+            }
+
             bitmap?.let {
                 GLUtils.texImage2D(gl.GL_TEXTURE_2D, 0, bitmap, 0)
             }

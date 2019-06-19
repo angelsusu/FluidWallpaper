@@ -61,6 +61,9 @@
         <activity
             android:name=".wallpaper.PhotoAlbumActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".viwe.WallpaperPreviewActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

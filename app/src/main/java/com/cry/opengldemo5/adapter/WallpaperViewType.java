@@ -3,6 +3,7 @@ package com.cry.opengldemo5.adapter;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -43,14 +44,14 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
 
         private ItemViewHolder(View view) {
             super(view);
-            mImageView = view.findViewById(R.id.image);
+            mImageView = view.findViewById(R.id.wallpaper_image);
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mLiveWallpaperInfo);
                     if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                         ImageWallpaperService.startWallpaper(mContext);
-                    } else {
+                    } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
                         VideoWallpaperService.startWallpaper(mContext);
                     }
                 }
@@ -60,12 +61,14 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
         private void updateView(LiveWallpaperInfo itemData) {
             mLiveWallpaperInfo = itemData;
             if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                mImageView.setImageBitmap(itemData.mImgBitmap);
+                mImageView.setImageBitmap(getBitmap(mLiveWallpaperInfo.mResourcesId));
             } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-                if (itemData.mVideoSource == LiveWallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
-                    mImageView.setImageBitmap(getAssetsImage(itemData.mVideoPath));
-                }
+                mImageView.setImageBitmap(getAssetsImage(itemData.mPath));
             }
+        }
+
+        private Bitmap getBitmap(int id) {
+            return BitmapFactory.decodeResource(mContext.getResources(), id);
         }
 
         private Bitmap getAssetsImage(String fileName) {

@@ -82,16 +82,15 @@ public class VideoWallpaperService extends WallpaperService {
             LiveWallpaperInfo liveWallpaperInfo = LiveWallpaperInfoManager.getInstance().getCurrentWallpaperInfo();
             mediaPlayer.setSurface(holder.getSurface());
             try {
-                if (liveWallpaperInfo.mVideoSource == LiveWallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
+                if (liveWallpaperInfo.mSource == LiveWallpaperInfo.Source.SOURCE_ASSETS) {
                     AssetManager aManager = getApplicationContext().getAssets();
-                    AssetFileDescriptor fileDescriptor = aManager.openFd(liveWallpaperInfo.mVideoPath);
+                    AssetFileDescriptor fileDescriptor = aManager.openFd(liveWallpaperInfo.mPath);
                     mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
                 } else {
-                    mediaPlayer.setDataSource(liveWallpaperInfo.mVideoPath);
+                    mediaPlayer.setDataSource(liveWallpaperInfo.mPath);
                 }
                 //循环播放我们的视频
                 mediaPlayer.setLooping(true);
-                //默认将音量设置成最小
                 mediaPlayer.setVolume(1, 1);
                 mediaPlayer.prepare();
                 mediaPlayer.start();

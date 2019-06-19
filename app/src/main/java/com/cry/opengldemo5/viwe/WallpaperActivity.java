@@ -33,7 +33,6 @@ import com.cry.opengldemo5.adapter.WallpaperViewType;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,12 +78,12 @@ public class WallpaperActivity extends AppCompatActivity {
 
     private void initData() {
         if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_six)));
-            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_one)));
-            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_two)));
-            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_three)));
-            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
-            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_six));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_one));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_two));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_three));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_four));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_five));
         } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
             mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video1.mp4"));
             mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video2.mp4"));
@@ -118,16 +117,12 @@ public class WallpaperActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    private LiveWallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
-        return LiveWallpaperInfo.createImageWallpaperInfo(bitmap);
+    private LiveWallpaperInfo createImageWallpaperInfo(int resourcesId) {
+        return LiveWallpaperInfo.createImageWallpaperInfo(resourcesId, "", LiveWallpaperInfo.Source.SOURCE_ASSETS);
     }
 
     private LiveWallpaperInfo createVideoWallpaperInfo(String videoName) {
-        return LiveWallpaperInfo.createVideoWallpaperInfo(videoName, LiveWallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS);
-    }
-
-    private Bitmap getBitmap(int imgResId) {
-        return BitmapFactory.decodeResource(getResources(), imgResId);
+        return LiveWallpaperInfo.createVideoWallpaperInfo(videoName, LiveWallpaperInfo.Source.SOURCE_ASSETS);
     }
 
     private void choosePhoto() {
@@ -174,21 +169,13 @@ public class WallpaperActivity extends AppCompatActivity {
                 startCropActivity(imageUri);
             } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
                 LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(LiveWallpaperInfo.
-                        createVideoWallpaperInfo(path, LiveWallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
+                        createVideoWallpaperInfo(path, LiveWallpaperInfo.Source.SOURCE_USER_ALBUM));
                 VideoWallpaperService.startWallpaper(this);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
-                if (bitmap == null) {
-                    return;
-                }
-                LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(
-                        LiveWallpaperInfo.createImageWallpaperInfo(bitmap));
-                ImageWallpaperService.startWallpaper(this);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(
+                    LiveWallpaperInfo.createImageWallpaperInfo(0, uritempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM));
+            ImageWallpaperService.startWallpaper(this);
         }
     }
 
