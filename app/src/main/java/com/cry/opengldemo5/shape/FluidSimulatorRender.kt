@@ -227,7 +227,6 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
         mHeight = height
         initPrograms()
         init()
-        initBg()
         initFramebuffers()
         multipleSplats((Math.random() * 20).toInt() + 5)
     }
@@ -830,20 +829,38 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
     }
 
     override fun onTouchEvent(e: MotionEvent) {
-        when (e.action) {
+        var action = e.action
+        val pointerCount = e.pointerCount
+        if (pointerCount > 1) {
+            action = e.actionMasked
+        }
+        when (action) {
             MotionEvent.ACTION_MOVE -> {
-                pointers[0].moved = pointers[0].down;
-                pointers[0].dx = (e.x - pointers[0].x) * 5.0f;
-                pointers[0].dy = (e.y - pointers[0].y) * 5.0f;
-                pointers[0].x = e.x;
-                pointers[0].y = e.y;
+                for (index in 0 .. (pointerCount - 1)) {
+                    pointers[index].moved = pointers[index].down;
+                    pointers[index].dx = (e.getX(index) - pointers[index].x) * 5.0f;
+                    pointers[index].dy = (e.getY(index) - pointers[index].y) * 5.0f;
+                    pointers[index].x = e.getX(index);
+                    pointers[index].y = e.getY(index);
+                    pointers[index].color = generateColor()
+                }
             }
+            MotionEvent.ACTION_POINTER_DOWN,
             MotionEvent.ACTION_DOWN -> {
-                pointers[0].down = true;
-                pointers[0].color = generateColor();
+                for (index in 0 .. (pointerCount - 1)) {
+                    if (index >= pointers.size) {
+                        pointers.add(PointerPrototype())
+                    }
+                    pointers[index].down = true
+                    pointers[index].color = generateColor()
+                    pointers[index].x = e.getX(index)
+                    pointers[index].y = e.getY(index)
+                }
             }
             MotionEvent.ACTION_UP -> {
-                pointers[0].down = false;
+                for (pointer in pointers) {
+                    pointer.down = false
+                }
             }
         }
     }
