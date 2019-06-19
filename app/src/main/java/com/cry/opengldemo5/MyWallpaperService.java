@@ -22,7 +22,14 @@ public class MyWallpaperService extends WallpaperService {
     private MyEngine engine;
 
     @Override
+    public void onCreate() {
+        Log.d("MyWallpaperService", "onCreate");
+        engine = new MyEngine();
+    }
+
+    @Override
     public Engine onCreateEngine() {
+        Log.d("MyWallpaperService", "onCreateEngine");
         engine = new MyEngine();
         return engine;
     }

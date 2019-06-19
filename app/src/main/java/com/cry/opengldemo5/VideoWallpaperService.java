@@ -12,8 +12,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import com.cry.opengldemo5.wallpaper.WallpaperInfo;
-import com.cry.opengldemo5.wallpaper.WallpaperInfoManager;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.io.IOException;
 
@@ -79,15 +79,15 @@ public class VideoWallpaperService extends WallpaperService {
         }
 
         private void play(SurfaceHolder holder) {
-            WallpaperInfo wallpaperInfo = WallpaperInfoManager.getInstance().getCurrentWallpaperInfo();
+            LiveWallpaperInfo liveWallpaperInfo = LiveWallpaperInfoManager.getInstance().getCurrentWallpaperInfo();
             mediaPlayer.setSurface(holder.getSurface());
             try {
-                if (wallpaperInfo.mVideoSource == WallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
+                if (liveWallpaperInfo.mVideoSource == LiveWallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
                     AssetManager aManager = getApplicationContext().getAssets();
-                    AssetFileDescriptor fileDescriptor = aManager.openFd(wallpaperInfo.mVideoPath);
+                    AssetFileDescriptor fileDescriptor = aManager.openFd(liveWallpaperInfo.mVideoPath);
                     mediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
                 } else {
-                    mediaPlayer.setDataSource(wallpaperInfo.mVideoPath);
+                    mediaPlayer.setDataSource(liveWallpaperInfo.mVideoPath);
                 }
                 //循环播放我们的视频
                 mediaPlayer.setLooping(true);

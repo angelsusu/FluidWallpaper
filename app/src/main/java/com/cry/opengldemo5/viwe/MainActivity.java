@@ -1,18 +1,14 @@
 package com.cry.opengldemo5.viwe;
 
 import android.app.WallpaperManager;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
-import com.cry.opengldemo5.wallpaper.WallpaperInfo;
-import com.cry.opengldemo5.wallpaper.PhotoAlbumActivity;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 WallpaperActivity.startWallpaperActivity(MainActivity.this,
-                        WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE);
+                        LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE);
             }
         });
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WallpaperActivity.startWallpaperActivity(MainActivity.this,
-                        WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO);
+                        LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO);
             }
         });
 //        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {

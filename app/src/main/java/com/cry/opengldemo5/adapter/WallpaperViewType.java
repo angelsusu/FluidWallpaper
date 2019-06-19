@@ -1,9 +1,6 @@
 package com.cry.opengldemo5.adapter;
 
-import android.app.WallpaperManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
@@ -14,15 +11,15 @@ import android.widget.ImageView;
 import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
 import com.cry.opengldemo5.VideoWallpaperService;
-import com.cry.opengldemo5.wallpaper.WallpaperInfo;
-import com.cry.opengldemo5.wallpaper.WallpaperInfoManager;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.io.IOException;
 
 /**
  * Created by xieguohua on 2019/6/19.
  */
-public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerItemViewType<WallpaperInfo> {
+public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerItemViewType<LiveWallpaperInfo> {
 
     public WallpaperViewType(Context context) {
         super(context, R.layout.item_wallpaper);
@@ -34,7 +31,7 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
     }
 
     @Override
-    public void updateData(RecyclerView.ViewHolder viewHolder, WallpaperInfo itemData) {
+    public void updateData(RecyclerView.ViewHolder viewHolder, LiveWallpaperInfo itemData) {
         ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
         itemViewHolder.updateView(itemData);
     }
@@ -42,7 +39,7 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImageView;
-        private WallpaperInfo mWallpaperInfo;
+        private LiveWallpaperInfo mLiveWallpaperInfo;
 
         private ItemViewHolder(View view) {
             super(view);
@@ -50,8 +47,8 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mWallpaperInfo);
-                    if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
+                    LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mLiveWallpaperInfo);
+                    if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                         MyWallpaperService.startWallpaper(mContext);
                     } else {
                         VideoWallpaperService.startWallpaper(mContext);
@@ -60,12 +57,12 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
             });
         }
 
-        private void updateView(WallpaperInfo itemData) {
-            mWallpaperInfo = itemData;
-            if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
+        private void updateView(LiveWallpaperInfo itemData) {
+            mLiveWallpaperInfo = itemData;
+            if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                 mImageView.setImageBitmap(itemData.mImgBitmap);
-            } else if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-                if (itemData.mVideoSource == WallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
+            } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
+                if (itemData.mVideoSource == LiveWallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
                     mImageView.setImageBitmap(getAssetsImage(itemData.mVideoPath));
                 }
             }

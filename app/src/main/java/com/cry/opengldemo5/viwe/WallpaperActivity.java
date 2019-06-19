@@ -30,8 +30,8 @@ import com.cry.opengldemo5.VideoWallpaperService;
 import com.cry.opengldemo5.adapter.GridSpacingItemDecoration;
 import com.cry.opengldemo5.adapter.VarietyTypeRecyclerViewAdapter;
 import com.cry.opengldemo5.adapter.WallpaperViewType;
-import com.cry.opengldemo5.wallpaper.WallpaperInfo;
-import com.cry.opengldemo5.wallpaper.WallpaperInfoManager;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class WallpaperActivity extends AppCompatActivity {
     private VarietyTypeRecyclerViewAdapter mAdapter;
     private WallpaperViewType mWallpaperViewType;
     private int mWallpaperType;
-    private List<WallpaperInfo> mWallpaperInfoList = new ArrayList<>();
+    private List<LiveWallpaperInfo> mLiveWallpaperInfoList = new ArrayList<>();
 
     private static final int PHOTO_REQUEST_GALLERY = 10;
     private static final int PHOTO_REQUEST_CUT = 11;
@@ -67,7 +67,7 @@ public class WallpaperActivity extends AppCompatActivity {
 
     private void initView() {
         Button button = findViewById(R.id.open_button);
-        button.setText(mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE ?
+        button.setText(mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE ?
                 "从相册选择图片" : "从相册选择视频");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,19 +78,19 @@ public class WallpaperActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_six)));
-            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_one)));
-            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_two)));
-            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_three)));
-            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
-            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
-        } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video1.mp4"));
-            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video2.mp4"));
-            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video3.mp4"));
-            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video4.mp4"));
-            mWallpaperInfoList.add(createVideoWallpaperInfo("video/video5.mp4"));
+        if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_six)));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_one)));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_two)));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_three)));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
+        } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
+            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video1.mp4"));
+            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video2.mp4"));
+            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video3.mp4"));
+            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video4.mp4"));
+            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video5.mp4"));
         }
     }
 
@@ -105,7 +105,7 @@ public class WallpaperActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         List<VarietyTypeRecyclerViewAdapter.ItemViewDataWrapper> data = new ArrayList<>();
-        for (WallpaperInfo item : mWallpaperInfoList) {
+        for (LiveWallpaperInfo item : mLiveWallpaperInfoList) {
             data.add(new VarietyTypeRecyclerViewAdapter.ItemViewDataWrapper(item, mWallpaperViewType));
         }
         mAdapter.setListData(data);
@@ -118,12 +118,12 @@ public class WallpaperActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    private WallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
-        return WallpaperInfo.createImageWallpaperInfo(bitmap);
+    private LiveWallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
+        return LiveWallpaperInfo.createImageWallpaperInfo(bitmap);
     }
 
-    private WallpaperInfo createVideoWallpaperInfo(String videoName) {
-        return WallpaperInfo.createVideoWallpaperInfo(videoName, WallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS);
+    private LiveWallpaperInfo createVideoWallpaperInfo(String videoName) {
+        return LiveWallpaperInfo.createVideoWallpaperInfo(videoName, LiveWallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS);
     }
 
     private Bitmap getBitmap(int imgResId) {
@@ -148,9 +148,9 @@ public class WallpaperActivity extends AppCompatActivity {
     private void startChoosePhotoActivity() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         String dataType = "";
-        if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
+        if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
             dataType = "image/*";
-        } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
+        } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
             dataType = "video/*";
         }
         intent.setType(dataType);
@@ -170,11 +170,11 @@ public class WallpaperActivity extends AppCompatActivity {
             }
             String path = getPath(this, imageUri);
             Log.d("Interested", path);
-            if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
+            if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                 startCropActivity(imageUri);
-            } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-                WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(WallpaperInfo.
-                        createVideoWallpaperInfo(path, WallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
+            } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
+                LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(LiveWallpaperInfo.
+                        createVideoWallpaperInfo(path, LiveWallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
                 VideoWallpaperService.startWallpaper(this);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
@@ -183,8 +183,8 @@ public class WallpaperActivity extends AppCompatActivity {
                 if (bitmap == null) {
                     return;
                 }
-                WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(
-                        WallpaperInfo.createImageWallpaperInfo(bitmap));
+                LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(
+                        LiveWallpaperInfo.createImageWallpaperInfo(bitmap));
                 MyWallpaperService.startWallpaper(this);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

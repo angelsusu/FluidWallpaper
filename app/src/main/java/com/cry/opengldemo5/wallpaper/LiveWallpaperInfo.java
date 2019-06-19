@@ -1,13 +1,12 @@
 package com.cry.opengldemo5.wallpaper;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 /**
  * Created by subeiting on 2019/6/19.
  * 壁纸信息
  */
-public class WallpaperInfo {
+public class LiveWallpaperInfo {
 
     public static class WallpaperType {
         public static final int WALLPAPER_TYPE_UNKNOW = 0;
@@ -26,16 +25,16 @@ public class WallpaperInfo {
     public String mVideoPath = "";  //视频对应的路径
     public int mVideoSource = VideoSource.VIDEOSOURCE_UNKNOW; //视频对应的来源
 
-    public static WallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
-        return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, bitmap, "",
+    public static LiveWallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
+        return new LiveWallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, bitmap, "",
                 WallpaperType.WALLPAPER_TYPE_UNKNOW);
     }
 
-    public static WallpaperInfo createVideoWallpaperInfo(String videoPath, int videoSource) {
-        return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_VIDEO, null, videoPath, videoSource);
+    public static LiveWallpaperInfo createVideoWallpaperInfo(String videoPath, int videoSource) {
+        return new LiveWallpaperInfo(WallpaperType.WALLPAPER_TYPE_VIDEO, null, videoPath, videoSource);
     }
 
-    private WallpaperInfo(int wallpaperType, Bitmap bitmap, String videoPath, int videoSource) {
+    private LiveWallpaperInfo(int wallpaperType, Bitmap bitmap, String videoPath, int videoSource) {
         mWallpaperType = wallpaperType;
         mVideoPath = videoPath;
         mVideoSource = videoSource;

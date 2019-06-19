@@ -113,8 +113,8 @@ public class PhotoAlbumActivity extends AppCompatActivity {
             if (mPhotoAlbumType == PHOTO_IMG) {
                 startCropActivity(imageUri);
             } else if (mPhotoAlbumType == PHOTO_VIDEO) {
-                WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(WallpaperInfo.
-                        createVideoWallpaperInfo(path, WallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
+                LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(LiveWallpaperInfo.
+                        createVideoWallpaperInfo(path, LiveWallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             Bitmap bitmap = data.getParcelableExtra("data");
@@ -124,7 +124,7 @@ public class PhotoAlbumActivity extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.image);
             imageView.setBackground(null);
             imageView.setImageBitmap(bitmap);
-            WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(WallpaperInfo.createImageWallpaperInfo(bitmap));
+            LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(LiveWallpaperInfo.createImageWallpaperInfo(bitmap));
             startWallpaper();
         }
     }
