@@ -13,6 +13,8 @@ import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
 import com.cry.opengldemo5.wallpaper.WallpaperInfo;
 
+import com.cry.opengldemo5.wallpaper.PhotoAlbumActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -38,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 WallpaperActivity.startWallpaperActivity(MainActivity.this,
                         WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE);
+            }
+        });
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PhotoAlbumActivity.class);
+                startActivity(intent);
             }
         });
     }

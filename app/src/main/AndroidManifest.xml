@@ -20,7 +20,6 @@
         </activity>
         <activity
             android:name=".viwe.MainActivity"
-            android:label="@string/title_activity_view"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,6 +57,10 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/wallpaper" />
         </service>
+
+        <activity
+            android:name=".wallpaper.PhotoAlbumActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
