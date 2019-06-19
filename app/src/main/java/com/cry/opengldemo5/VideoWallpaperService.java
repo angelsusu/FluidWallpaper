@@ -1,5 +1,9 @@
 package com.cry.opengldemo5;
 
+import android.app.WallpaperManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
@@ -87,5 +91,13 @@ public class VideoWallpaperService extends WallpaperService {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void startWallpaper(Context context) {
+        Intent intent = new Intent(
+                WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                new ComponentName(context, VideoWallpaperService.class));
+        context.startActivity(intent);
     }
 }

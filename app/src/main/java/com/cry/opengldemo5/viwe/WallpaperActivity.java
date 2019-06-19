@@ -43,12 +43,12 @@ public class WallpaperActivity extends AppCompatActivity {
 
     private void initData() {
         if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_six)));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_one)));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_two)));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_three)));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
+            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_six)));
+            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_one)));
+            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_two)));
+            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_three)));
+            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
+            mWallpaperInfoList.add(createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
         } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
 
         }
@@ -76,6 +76,10 @@ public class WallpaperActivity extends AppCompatActivity {
         Intent intent = new Intent(context, WallpaperActivity.class);
         intent.putExtra(WALLPAPER_TYPE, wallpaperType);
         context.startActivity(intent);
+    }
+
+    private WallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
+        return WallpaperInfo.createImageWallpaperInfo(bitmap);
     }
 
     private Bitmap getBitmap(int imgResId) {
