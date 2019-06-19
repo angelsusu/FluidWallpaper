@@ -2,6 +2,7 @@ package com.cry.opengldemo5.wallpaper;
 
 import android.Manifest;
 import android.app.WallpaperManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
 
 /**
@@ -111,7 +113,8 @@ public class PhotoAlbumActivity extends AppCompatActivity {
             if (mPhotoAlbumType == PHOTO_IMG) {
                 startCropActivity(imageUri);
             } else if (mPhotoAlbumType == PHOTO_VIDEO) {
-                //todo
+                WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(WallpaperInfo.
+                        createVideoWallpaperInfo(path, WallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             Bitmap bitmap = data.getParcelableExtra("data");
@@ -121,6 +124,8 @@ public class PhotoAlbumActivity extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.image);
             imageView.setBackground(null);
             imageView.setImageBitmap(bitmap);
+            WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(WallpaperInfo.createImageWallpaperInfo(bitmap));
+            startWallpaper();
         }
     }
 
@@ -176,5 +181,13 @@ public class PhotoAlbumActivity extends AppCompatActivity {
             return uri.getPath();
         }
         return null;
+    }
+
+    private void startWallpaper() {
+        Intent intent = new Intent(
+                WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                new ComponentName(this, MyWallpaperService.class));
+        startActivity(intent);
     }
 }

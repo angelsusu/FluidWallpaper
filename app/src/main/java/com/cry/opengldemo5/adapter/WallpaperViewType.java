@@ -4,7 +4,6 @@ import android.app.WallpaperManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
 import com.cry.opengldemo5.wallpaper.WallpaperInfo;
+import com.cry.opengldemo5.wallpaper.WallpaperInfoManager;
 
 /**
  * Created by xieguohua on 2019/6/19.
@@ -44,6 +44,7 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mWallpaperInfo);
                     if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                         startImageWallpaperService();
                     }
@@ -54,7 +55,7 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
         private void updateView(WallpaperInfo itemData) {
             mWallpaperInfo = itemData;
             if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                mImageView.setImageDrawable(ContextCompat.getDrawable(mContext, itemData.mImgResId));
+                mImageView.setImageBitmap(itemData.mImgBitmap);
             } else {
 
             }

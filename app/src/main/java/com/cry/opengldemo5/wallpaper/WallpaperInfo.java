@@ -1,5 +1,8 @@
 package com.cry.opengldemo5.wallpaper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 /**
  * Created by subeiting on 2019/6/19.
  * 壁纸信息
@@ -12,21 +15,30 @@ public class WallpaperInfo {
         public static final int WALLPAPER_TYPE_VIDEO = 2;
     }
 
+    public static class VideoSource {
+        public static final int VIDEOSOURCE_UNKNOW = 0;
+        public static final int VIDEOSOURCE_ASSETS = 1;
+        public static final int VIDEOSOURCE_USER_ALBUM = 2;
+    }
+
     public int mWallpaperType = WallpaperType.WALLPAPER_TYPE_UNKNOW;
-    public int mImgResId = -1;   //图片对应的资源id
+    public Bitmap mImgBitmap = null;   //bitmap
     public String mVideoPath = "";  //视频对应的路径
+    public int mVideoSource = WallpaperType.WALLPAPER_TYPE_UNKNOW; //视频对应的来源
 
-    public static WallpaperInfo createImageWallpaperInfo(int imgResId) {
-        return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, imgResId, "");
+    public static WallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
+        return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, bitmap, "",
+                WallpaperType.WALLPAPER_TYPE_UNKNOW);
     }
 
-    public static WallpaperInfo createVideoWallpaperInfo(String videoPath) {
-        return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_VIDEO, 0, videoPath);
+    public static WallpaperInfo createVideoWallpaperInfo(String videoPath, int videoSource) {
+        return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_VIDEO, null, videoPath, videoSource);
     }
 
-    private WallpaperInfo(int wallpaperType, int imgResId, String videoPath) {
+    private WallpaperInfo(int wallpaperType, Bitmap bitmap, String videoPath, int videoSource) {
         mWallpaperType = wallpaperType;
-        mImgResId = imgResId;
         mVideoPath = videoPath;
+        mVideoSource = videoSource;
+        mImgBitmap = bitmap;
     }
 }

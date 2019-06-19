@@ -2,6 +2,8 @@ package com.cry.opengldemo5.viwe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,12 +43,12 @@ public class WallpaperActivity extends AppCompatActivity {
 
     private void initData() {
         if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(R.drawable.test_wallpaper_six));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(R.drawable.test_wallpaper_one));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(R.drawable.test_wallpaper_two));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(R.drawable.test_wallpaper_three));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(R.drawable.test_wallpaper_four));
-            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(R.drawable.test_wallpaper_five));
+            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_six)));
+            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_one)));
+            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_two)));
+            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_three)));
+            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_four)));
+            mWallpaperInfoList.add(WallpaperInfo.createImageWallpaperInfo(getBitmap(R.drawable.test_wallpaper_five)));
         } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
 
         }
@@ -74,5 +76,9 @@ public class WallpaperActivity extends AppCompatActivity {
         Intent intent = new Intent(context, WallpaperActivity.class);
         intent.putExtra(WALLPAPER_TYPE, wallpaperType);
         context.startActivity(intent);
+    }
+
+    private Bitmap getBitmap(int imgResId) {
+        return BitmapFactory.decodeResource(getResources(), imgResId);
     }
 }
