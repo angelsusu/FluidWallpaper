@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
+import com.cry.opengldemo5.VideoWallpaperService;
 import com.cry.opengldemo5.adapter.GridSpacingItemDecoration;
 import com.cry.opengldemo5.adapter.VarietyTypeRecyclerViewAdapter;
 import com.cry.opengldemo5.adapter.WallpaperViewType;
@@ -174,6 +175,7 @@ public class WallpaperActivity extends AppCompatActivity {
             } else if (mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
                 WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(WallpaperInfo.
                         createVideoWallpaperInfo(path, WallpaperInfo.VideoSource.VIDEOSOURCE_USER_ALBUM));
+                VideoWallpaperService.startWallpaper(this);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             try {
