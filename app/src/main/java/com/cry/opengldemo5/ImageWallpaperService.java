@@ -17,19 +17,19 @@ import com.cry.opengldemo5.shape.FluidSimulatorRender;
 /**
  * Created by subeiting on 2019/6/14.
  */
-public class MyWallpaperService extends WallpaperService {
+public class ImageWallpaperService extends WallpaperService {
 
     private MyEngine engine;
 
     @Override
     public void onCreate() {
-        Log.d("MyWallpaperService", "onCreate");
+        Log.d("ImageWallpaperService", "onCreate");
         engine = new MyEngine();
     }
 
     @Override
     public Engine onCreateEngine() {
-        Log.d("MyWallpaperService", "onCreateEngine");
+        Log.d("ImageWallpaperService", "onCreateEngine");
         engine = new MyEngine();
         return engine;
     }
@@ -42,12 +42,12 @@ public class MyWallpaperService extends WallpaperService {
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
-            glSurfaceView = new WallpaperGLSurfaceView(MyWallpaperService.this);
+            glSurfaceView = new WallpaperGLSurfaceView(ImageWallpaperService.this);
         }
 
         @Override
         public SurfaceHolder getSurfaceHolder() {
-            Log.d("MyWallpaperService", "getSurfaceHolder");
+            Log.d("ImageWallpaperService", "getSurfaceHolder");
             return super.getSurfaceHolder();
         }
 
@@ -55,7 +55,7 @@ public class MyWallpaperService extends WallpaperService {
         @Override
         public void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset) {
             super.onOffsetsChanged(xOffset, yOffset, xOffsetStep, yOffsetStep, xPixelOffset, yPixelOffset);
-            Log.d("MyWallpaperService", "onOffsetsChanged");
+            Log.d("ImageWallpaperService", "onOffsetsChanged");
         }
 
         //Surface创建时回调
@@ -63,20 +63,20 @@ public class MyWallpaperService extends WallpaperService {
         public void onSurfaceCreated(SurfaceHolder holder) {
             super.onSurfaceCreated(holder);
 
-            boolean isSupportEs2 = GLESUtils.isSupportEs2(MyWallpaperService.this);
+            boolean isSupportEs2 = GLESUtils.isSupportEs2(ImageWallpaperService.this);
             //表示支持
             if (isSupportEs2) {
                 //创建一个GLSurfaceView
-                FluidSimulatorRender render = new FluidSimulatorRender(MyWallpaperService.this);
+                FluidSimulatorRender render = new FluidSimulatorRender(ImageWallpaperService.this);
                 dealTouchEvent = render;
                 glSurfaceView.setDelegate(render);
                 glSurfaceView.setEGLContextClientVersion(2);
                 //设置自己的Render.Render 内进行图形的绘制
                 glSurfaceView.setRenderer(render);
             } else {
-                Log.d("MyWallpaperService", "not SupportEs2");
+                Log.d("ImageWallpaperService", "not SupportEs2");
             }
-            Log.d("MyWallpaperService", "onSurfaceCreated");
+            Log.d("ImageWallpaperService", "onSurfaceCreated");
         }
 
         //Surface销毁时回调
@@ -84,14 +84,14 @@ public class MyWallpaperService extends WallpaperService {
         public void onSurfaceDestroyed(SurfaceHolder holder) {
             super.onSurfaceDestroyed(holder);
             glSurfaceView.onWallpaperDestroy();
-            Log.d("MyWallpaperService", "onSurfaceDestroyed");
+            Log.d("ImageWallpaperService", "onSurfaceDestroyed");
         }
 
         @Override
         public void onTouchEvent(MotionEvent event) {
             super.onTouchEvent(event);
             dealTouchEvent.onTouchEvent(event);
-            Log.d("MyWallpaperService", "onTouchEvent");
+            Log.d("ImageWallpaperService", "onTouchEvent");
         }
     }
 
@@ -121,7 +121,7 @@ public class MyWallpaperService extends WallpaperService {
         Intent intent = new Intent(
                 WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                new ComponentName(context, MyWallpaperService.class));
+                new ComponentName(context, ImageWallpaperService.class));
         context.startActivity(intent);
     }
 }

@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.cry.opengldemo5.MyWallpaperService;
+import com.cry.opengldemo5.ImageWallpaperService;
 import com.cry.opengldemo5.R;
 import com.cry.opengldemo5.VideoWallpaperService;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
@@ -49,7 +49,7 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
                 public void onClick(View v) {
                     LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mLiveWallpaperInfo);
                     if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                        MyWallpaperService.startWallpaper(mContext);
+                        ImageWallpaperService.startWallpaper(mContext);
                     } else {
                         VideoWallpaperService.startWallpaper(mContext);
                     }

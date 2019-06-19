@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.cry.opengldemo5.MyWallpaperService;
+import com.cry.opengldemo5.ImageWallpaperService;
 import com.cry.opengldemo5.R;
 
 /**
@@ -187,7 +187,7 @@ public class PhotoAlbumActivity extends AppCompatActivity {
         Intent intent = new Intent(
                 WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                new ComponentName(this, MyWallpaperService.class));
+                new ComponentName(this, ImageWallpaperService.class));
         startActivity(intent);
     }
 }

@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.cry.opengldemo5.MyWallpaperService;
+import com.cry.opengldemo5.ImageWallpaperService;
 import com.cry.opengldemo5.R;
 import com.cry.opengldemo5.VideoWallpaperService;
 import com.cry.opengldemo5.adapter.GridSpacingItemDecoration;
@@ -185,7 +185,7 @@ public class WallpaperActivity extends AppCompatActivity {
                 }
                 LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(
                         LiveWallpaperInfo.createImageWallpaperInfo(bitmap));
-                MyWallpaperService.startWallpaper(this);
+                ImageWallpaperService.startWallpaper(this);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

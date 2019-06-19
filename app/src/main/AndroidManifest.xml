@@ -34,7 +34,7 @@
             android:name=".viwe.WallpaperActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <service
-            android:name=".MyWallpaperService"
+            android:name=".ImageWallpaperService"
             android:enabled="true"
 
             android:permission="android.permission.BIND_WALLPAPER">
