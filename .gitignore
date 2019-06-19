@@ -7,3 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+/.idea/caches/*.ser
+/.idea/*.xml
+/.idea/inspectionProfiles/*.xml

@@ -438,7 +438,7 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 
 //            val options = BitmapFactory.Options()
 //            options.inScaled = false   // No pre-scaling
-            val bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.test_bg)
+            val bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.test_wallpaper_six)
 
             GLUtils.texImage2D(gl.GL_TEXTURE_2D, 0, bitmap, 0)
 

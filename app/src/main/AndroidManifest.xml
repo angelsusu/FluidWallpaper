@@ -19,7 +19,7 @@
         <activity android:name=".render.ViewActivity">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".viwe.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +31,22 @@
             android:name=".camera.CameraActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".TestActivity"
+            android:name=".viwe.WallpaperActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <service
             android:name=".MyWallpaperService"
+            android:enabled="true"
+
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
+        <service
+            android:name=".VideoWallpaperService"
             android:enabled="true"
 
             android:permission="android.permission.BIND_WALLPAPER">

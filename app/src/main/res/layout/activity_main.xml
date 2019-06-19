@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".viwe.MainActivity">
 
     <ImageView
         android:id="@+id/image"
@@ -15,7 +15,7 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="choose Wallpaper"
+        android:text="静态壁纸"
         android:layout_centerInParent="true" />
 
     <Button
@@ -23,7 +23,7 @@
         android:layout_below="@id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="start Activity"
+        android:text="动态壁纸"
         android:layout_centerInParent="true" />
 
     <Button

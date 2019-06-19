@@ -1,18 +1,13 @@
 package com.cry.opengldemo5;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 import com.cry.opengldemo5.render.DealTouchEvent;
-import com.cry.opengldemo5.render.FluidSimulatorSurfaceView;
 import com.cry.opengldemo5.render.GLESUtils;
 import com.cry.opengldemo5.shape.FluidSimulatorRender;
 
@@ -66,9 +61,6 @@ public class MyWallpaperService extends WallpaperService {
                 dealTouchEvent = render;
                 glSurfaceView.setDelegate(render);
                 glSurfaceView.setEGLContextClientVersion(2);
-//                glSurfaceView.setZOrderOnTop(true);
-//                glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-//                glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
                 //设置自己的Render.Render 内进行图形的绘制
                 glSurfaceView.setRenderer(render);
             } else {
