@@ -4,14 +4,20 @@ import android.app.WallpaperManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.cry.opengldemo5.MyWallpaperService;
 import com.cry.opengldemo5.R;
+import com.cry.opengldemo5.VideoWallpaperService;
 import com.cry.opengldemo5.wallpaper.WallpaperInfo;
 import com.cry.opengldemo5.wallpaper.WallpaperInfoManager;
+
+import java.io.IOException;
 
 /**
  * Created by xieguohua on 2019/6/19.
@@ -46,7 +52,9 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
                 public void onClick(View v) {
                     WallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mWallpaperInfo);
                     if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                        startImageWallpaperService();
+                        MyWallpaperService.startWallpaper(mContext);
+                    } else {
+                        VideoWallpaperService.startWallpaper(mContext);
                     }
                 }
             });
@@ -56,17 +64,24 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
             mWallpaperInfo = itemData;
             if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                 mImageView.setImageBitmap(itemData.mImgBitmap);
-            } else {
-
+            } else if (mWallpaperInfo.mWallpaperType == WallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
+                if (itemData.mVideoSource == WallpaperInfo.VideoSource.VIDEOSOURCE_ASSETS) {
+                    mImageView.setImageBitmap(getAssetsImage(itemData.mVideoPath));
+                }
             }
         }
 
-        private void startImageWallpaperService() {
-            Intent intent = new Intent(
-                    WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-            intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                    new ComponentName(mContext, MyWallpaperService.class));
-            mContext.startActivity(intent);
+        private Bitmap getAssetsImage(String fileName) {
+            Bitmap bitmap = null;
+            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+            try {
+                AssetFileDescriptor afd = mContext.getAssets().openFd(fileName);
+                mmr.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                bitmap = mmr.getFrameAtTime();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
         }
     }
 }

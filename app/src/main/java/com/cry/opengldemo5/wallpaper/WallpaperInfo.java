@@ -24,7 +24,7 @@ public class WallpaperInfo {
     public int mWallpaperType = WallpaperType.WALLPAPER_TYPE_UNKNOW;
     public Bitmap mImgBitmap = null;   //bitmap
     public String mVideoPath = "";  //视频对应的路径
-    public int mVideoSource = WallpaperType.WALLPAPER_TYPE_UNKNOW; //视频对应的来源
+    public int mVideoSource = VideoSource.VIDEOSOURCE_UNKNOW; //视频对应的来源
 
     public static WallpaperInfo createImageWallpaperInfo(Bitmap bitmap) {
         return new WallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, bitmap, "",
