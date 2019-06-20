@@ -1,9 +1,11 @@
 package com.cry.opengldemo5;
 
 import android.app.WallpaperManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
@@ -22,6 +24,9 @@ import java.io.IOException;
  */
 public class VideoWallpaperService extends WallpaperService {
 
+    public static final String VIDEO_SERVICE_NAME = "com.cry.opengldemo5.VideoWallpaperService";
+    public static final String VIDEO_BROADCAST_ACTION = "change_video";
+
     @Override
     public Engine onCreateEngine() {
         Log.d("data", "onCreateEngine: ");
@@ -32,6 +37,13 @@ public class VideoWallpaperService extends WallpaperService {
 
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
+        private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                play(getSurfaceHolder());
+            }
+        };
+
         @Override
         public SurfaceHolder getSurfaceHolder() {
             return super.getSurfaceHolder();
@@ -40,11 +52,15 @@ public class VideoWallpaperService extends WallpaperService {
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(VIDEO_BROADCAST_ACTION);
+            registerReceiver(mReceiver, filter);
         }
 
         @Override
         public void onDestroy() {
             super.onDestroy();
+            unregisterReceiver(mReceiver);
         }
 
         @Override
@@ -62,6 +78,7 @@ public class VideoWallpaperService extends WallpaperService {
         @Override
         public void onSurfaceCreated(SurfaceHolder holder) {
             super.onSurfaceCreated(holder);
+            Log.d("VideoWallpaperService", "onSurfaceCreated");
             play(holder);
         }
 
@@ -69,6 +86,7 @@ public class VideoWallpaperService extends WallpaperService {
         @Override
         public void onSurfaceDestroyed(SurfaceHolder holder) {
             super.onSurfaceDestroyed(holder);
+            Log.d("VideoWallpaperService", "onSurfaceDestroyed");
             mediaPlayer.release();
             mediaPlayer = null;
         }
@@ -89,6 +107,11 @@ public class VideoWallpaperService extends WallpaperService {
 
         private void play(SurfaceHolder holder) {
             LiveWallpaperInfo liveWallpaperInfo = LiveWallpaperInfoManager.getInstance().getCurrentWallpaperInfo();
+            if (liveWallpaperInfo == null) {
+                return;
+            }
+            Log.d("VideoWallpaperService", liveWallpaperInfo.mPath);
+            mediaPlayer.reset();
             mediaPlayer.setSurface(holder.getSurface());
             try {
                 if (liveWallpaperInfo.mSource == LiveWallpaperInfo.Source.SOURCE_ASSETS) {

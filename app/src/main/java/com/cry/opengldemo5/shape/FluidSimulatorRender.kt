@@ -442,6 +442,9 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 //            options.inScaled = false   // No pre-scaling
 //            val bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.test_wallpaper_six)
             val liveWallpaperInfo = LiveWallpaperInfoManager.getInstance().currentWallpaperInfo
+            if (liveWallpaperInfo == null) {
+                return
+            }
             var bitmap: Bitmap? = null
             if (liveWallpaperInfo.mSource == LiveWallpaperInfo.Source.SOURCE_ASSETS) {
                 bitmap = BitmapFactory.decodeResource(mContext.getResources(), liveWallpaperInfo.mResourcesId)

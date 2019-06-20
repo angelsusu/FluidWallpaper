@@ -24,7 +24,6 @@ public class ImageWallpaperService extends WallpaperService {
     @Override
     public void onCreate() {
         Log.d("ImageWallpaperService", "onCreate");
-        engine = new MyEngine();
     }
 
     @Override

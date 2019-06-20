@@ -168,14 +168,14 @@ public class WallpaperActivity extends AppCompatActivity {
             if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                 startCropActivity(imageUri);
             } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-                LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(LiveWallpaperInfo.
-                        createVideoWallpaperInfo(path, LiveWallpaperInfo.Source.SOURCE_USER_ALBUM));
-                VideoWallpaperService.startWallpaper(this);
+                LiveWallpaperInfo liveWallpaperInfo = LiveWallpaperInfo.
+                        createVideoWallpaperInfo(path, LiveWallpaperInfo.Source.SOURCE_USER_ALBUM);
+                WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
-            LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(
-                    LiveWallpaperInfo.createImageWallpaperInfo(0, uritempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM));
-            ImageWallpaperService.startWallpaper(this);
+            LiveWallpaperInfo liveWallpaperInfo =LiveWallpaperInfo.createImageWallpaperInfo(0,
+                    uritempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM);
+            WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
         }
     }
 
