@@ -59,7 +59,10 @@ public class WallpaperPreviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mLiveWallpaperInfo);
                 if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                    ImageWallpaperService.startWallpaper(WallpaperPreviewActivity.this);
+                    WallpaperInfo info = WallpaperManager.getInstance(WallpaperPreviewActivity.this).getWallpaperInfo();
+                    if(info == null || !ImageWallpaperService.IMAGE_SERVICE_NAME.equals(info.getServiceName())) {
+                        ImageWallpaperService.startWallpaper(WallpaperPreviewActivity.this);
+                    }
                 } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
 
                     WallpaperInfo info = WallpaperManager.getInstance(WallpaperPreviewActivity.this).getWallpaperInfo();

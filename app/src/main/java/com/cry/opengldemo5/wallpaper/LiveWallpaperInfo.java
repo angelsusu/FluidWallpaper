@@ -39,4 +39,14 @@ public class LiveWallpaperInfo implements Serializable {
         mSource = source;
         mResourcesId = resourcesId;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LiveWallpaperInfo) {
+            LiveWallpaperInfo info = (LiveWallpaperInfo) obj;
+            return info.mSource == mSource && info.mPath.equals(mPath)
+                    && info.mWallpaperType == mWallpaperType && info.mResourcesId == mResourcesId;
+        }
+        return false;
+    }
 }

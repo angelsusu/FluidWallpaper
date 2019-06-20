@@ -5,6 +5,7 @@ package com.cry.opengldemo5.wallpaper;
  */
 public class LiveWallpaperInfoManager {
     private LiveWallpaperInfo mLiveWallpaperInfo = null;
+    private boolean mIsChanged = false;
 
     private LiveWallpaperInfoManager() {
 
@@ -19,10 +20,19 @@ public class LiveWallpaperInfoManager {
     }
 
     public void setCurrentWallpaperInfo(LiveWallpaperInfo liveWallpaperInfo) {
+        mIsChanged = (mLiveWallpaperInfo == null || !liveWallpaperInfo.equals(mLiveWallpaperInfo));
         mLiveWallpaperInfo = liveWallpaperInfo;
     }
 
     public LiveWallpaperInfo getCurrentWallpaperInfo() {
         return mLiveWallpaperInfo;
+    }
+
+    public boolean isChanged() {
+        return mIsChanged;
+    }
+
+    public void resetChanged() {
+        mIsChanged = false;
     }
 }
