@@ -74,7 +74,6 @@ public class WallpaperPreviewActivity extends AppCompatActivity {
                         VideoWallpaperService.startWallpaper(WallpaperPreviewActivity.this);
                     }
                 }
-                Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
