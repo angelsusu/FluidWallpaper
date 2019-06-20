@@ -27,6 +27,7 @@ import com.cry.opengldemo5.adapter.GridSpacingItemDecoration;
 import com.cry.opengldemo5.adapter.VarietyTypeRecyclerViewAdapter;
 import com.cry.opengldemo5.adapter.WallpaperViewType;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.List;
 public class WallpaperActivity extends AppCompatActivity {
 
     public static final String WALLPAPER_TYPE = "wallpaperType";
+    private final String CROP_IMAGE_NAME = "crop.jpg";
     private RecyclerView mRecyclerView;
     private VarietyTypeRecyclerViewAdapter mAdapter;
     private WallpaperViewType mWallpaperViewType;
@@ -47,7 +49,7 @@ public class WallpaperActivity extends AppCompatActivity {
     private static final int PHOTO_REQUEST_CUT = 11;
     private static final int PERMISSION_REQUEST_CODE = 100;
 
-    private Uri uritempFile;
+    private Uri uriTempFile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -170,7 +172,7 @@ public class WallpaperActivity extends AppCompatActivity {
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             LiveWallpaperInfo liveWallpaperInfo =LiveWallpaperInfo.createImageWallpaperInfo(0,
-                    uritempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM);
+                    uriTempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM);
             WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
         }
     }
@@ -206,8 +208,18 @@ public class WallpaperActivity extends AppCompatActivity {
 
         intent.putExtra("outputFormat", "JPEG");// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
-        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "crop.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
+        LiveWallpaperInfo liveWallpaperInfo =
+                LiveWallpaperInfoManager.getInstance().getCurrentWallpaperInfo();
+        if (liveWallpaperInfo != null && liveWallpaperInfo.mPath != null) {
+            if (liveWallpaperInfo.mPath.contains(CROP_IMAGE_NAME)) {
+                uriTempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "wallpaper.jpg");
+            } else {
+                uriTempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + CROP_IMAGE_NAME);
+            }
+        } else {
+            uriTempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + CROP_IMAGE_NAME);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriTempFile);
         // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CUT
         startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
