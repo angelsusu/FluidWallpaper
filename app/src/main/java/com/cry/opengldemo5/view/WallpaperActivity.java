@@ -85,10 +85,7 @@ public class WallpaperActivity extends AppCompatActivity {
             mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_five));
         } else if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
             mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video1.mp4"));
-            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video2.mp4"));
-            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video3.mp4"));
             mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video4.mp4"));
-            mLiveWallpaperInfoList.add(createVideoWallpaperInfo("video/video5.mp4"));
         }
     }
 
