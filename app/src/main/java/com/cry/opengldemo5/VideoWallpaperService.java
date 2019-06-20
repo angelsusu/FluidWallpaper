@@ -74,6 +74,15 @@ public class VideoWallpaperService extends WallpaperService {
         }
 
         @Override
+        public void onVisibilityChanged(boolean visible) {
+            if (visible) {
+                mediaPlayer.start();
+            } else {
+                mediaPlayer.pause();
+            }
+        }
+
+        @Override
         public void onTouchEvent(MotionEvent event) {
             super.onTouchEvent(event);
         }
