@@ -77,6 +77,7 @@ public class WallpaperActivity extends AppCompatActivity {
         if (mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
             mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.wallpaper1));
             mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.wallpaper2));
+            mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.wallpaper3));
             mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_six));
             mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_one));
             mLiveWallpaperInfoList.add(createImageWallpaperInfo(R.drawable.test_wallpaper_two));
