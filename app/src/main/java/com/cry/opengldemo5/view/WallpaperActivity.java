@@ -106,6 +106,14 @@ public class WallpaperActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mWallpaperViewType != null) {
+            mWallpaperViewType.onDestroy();
+        }
+    }
+
     public static void startWallpaperActivity(Context context, int wallpaperType) {
         Intent intent = new Intent(context, WallpaperActivity.class);
         intent.putExtra(WALLPAPER_TYPE, wallpaperType);

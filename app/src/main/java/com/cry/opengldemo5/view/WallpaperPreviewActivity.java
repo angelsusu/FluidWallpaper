@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.cry.opengldemo5.ImageWallpaperService;
 import com.cry.opengldemo5.R;
@@ -60,6 +61,7 @@ public class WallpaperPreviewActivity extends AppCompatActivity {
                 if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
                     ImageWallpaperService.startWallpaper(WallpaperPreviewActivity.this);
                 } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
+
                     WallpaperInfo info = WallpaperManager.getInstance(WallpaperPreviewActivity.this).getWallpaperInfo();
                     if(info != null && VideoWallpaperService.VIDEO_SERVICE_NAME.equals(info.getServiceName())) {
                         Intent intent = new Intent();
@@ -69,6 +71,7 @@ public class WallpaperPreviewActivity extends AppCompatActivity {
                         VideoWallpaperService.startWallpaper(WallpaperPreviewActivity.this);
                     }
                 }
+                Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
