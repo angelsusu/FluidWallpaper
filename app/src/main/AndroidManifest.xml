@@ -19,7 +19,7 @@
         <activity android:name=".render.ViewActivity">
         </activity>
         <activity
-            android:name=".viwe.MainActivity"
+            android:name=".view.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
             android:name=".camera.CameraActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".viwe.WallpaperActivity"
+            android:name=".view.WallpaperActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <service
             android:name=".ImageWallpaperService"
@@ -62,7 +62,7 @@
             android:name=".wallpaper.PhotoAlbumActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".viwe.WallpaperPreviewActivity"
+            android:name=".view.WallpaperPreviewActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

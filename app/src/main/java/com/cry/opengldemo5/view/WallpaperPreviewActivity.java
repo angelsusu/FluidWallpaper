@@ -1,4 +1,4 @@
-package com.cry.opengldemo5.viwe;
+package com.cry.opengldemo5.view;
 
 import android.app.WallpaperInfo;
 import android.app.WallpaperManager;

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.cry.opengldemo5.R;
-import com.cry.opengldemo5.viwe.WallpaperPreviewActivity;
+import com.cry.opengldemo5.view.WallpaperPreviewActivity;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
 
 import java.io.IOException;

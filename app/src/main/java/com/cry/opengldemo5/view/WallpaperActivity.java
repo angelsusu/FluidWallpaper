@@ -1,12 +1,10 @@
-package com.cry.opengldemo5.viwe;
+package com.cry.opengldemo5.view;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,14 +22,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.cry.opengldemo5.ImageWallpaperService;
 import com.cry.opengldemo5.R;
-import com.cry.opengldemo5.VideoWallpaperService;
 import com.cry.opengldemo5.adapter.GridSpacingItemDecoration;
 import com.cry.opengldemo5.adapter.VarietyTypeRecyclerViewAdapter;
 import com.cry.opengldemo5.adapter.WallpaperViewType;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
-import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
