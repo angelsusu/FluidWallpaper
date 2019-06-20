@@ -426,7 +426,7 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
             1f, -1f, 1f, 1f)
     var bgTexture = 0
     fun initBg() {
-        if (bgTexture == 0) {
+        if (bgTexture == 0 || LiveWallpaperInfoManager.getInstance().isChanged) {
             val textureArr = IntArray(1)
             gl.glGenTextures(1, textureArr, 0)
             bgTexture = textureArr[0]
@@ -458,6 +458,8 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 
             //gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
         }
+
+        LiveWallpaperInfoManager.getInstance().resetChanged()
 
         if (bgVertex == 0 && bgVertexBuffer == null) {
 

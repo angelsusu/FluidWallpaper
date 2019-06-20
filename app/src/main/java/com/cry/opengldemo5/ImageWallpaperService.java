@@ -19,6 +19,8 @@ import com.cry.opengldemo5.shape.FluidSimulatorRender;
  */
 public class ImageWallpaperService extends WallpaperService {
 
+    public static final String IMAGE_SERVICE_NAME = "com.cry.opengldemo5.ImageWallpaperService";
+
     private MyEngine engine;
 
     @Override
