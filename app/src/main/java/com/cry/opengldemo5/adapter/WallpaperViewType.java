@@ -9,11 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.cry.opengldemo5.ImageWallpaperService;
 import com.cry.opengldemo5.R;
-import com.cry.opengldemo5.VideoWallpaperService;
+import com.cry.opengldemo5.viwe.WallpaperPreviewActivity;
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
-import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.io.IOException;
 
@@ -48,12 +46,7 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(mLiveWallpaperInfo);
-                    if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                        ImageWallpaperService.startWallpaper(mContext);
-                    } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
-                        VideoWallpaperService.startWallpaper(mContext);
-                    }
+                    WallpaperPreviewActivity.startWallpaperPreviewActivity(mContext, mLiveWallpaperInfo);
                 }
             });
         }
