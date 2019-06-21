@@ -272,15 +272,35 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
             Format(gl.GL_RG16F, gl.GL_RG),
             Format(gl.GL_R16F, gl.GL_RED))
 
-    data class Config(var SIM_RESOLUTION: Int = 128,
-                      var DYE_RESOLUTION: Int = 512,
+//    data class Config(var SIM_RESOLUTION: Int = 128,
+//                      var DYE_RESOLUTION: Int = 512,
+//                      var DENSITY_DISSIPATION: Float = 0.97f,
+//                      var VELOCITY_DISSIPATION: Float = 0.98f,
+//                      var PRESSURE_DISSIPATION: Float = 0.8f,
+//                      var PRESSURE_ITERATIONS: Int = 20,
+//                      var CURL: Float = 30f,
+//                      var SPLAT_RADIUS: Float = 0.5f,
+//                      var SHADING: Boolean = true,
+//                      var COLORFUL: Boolean = true,
+//                      var PAUSED: Boolean = false,
+//                      var BACK_COLOR: RGB = RGB(),
+//                      var TRANSPARENT: Boolean = false,
+//                      var BLOOM: Boolean = false,
+//                      var BLOOM_ITERATIONS: Int = 8,
+//                      var BLOOM_RESOLUTION: Int = 256,
+//                      var BLOOM_INTENSITY: Float = 0.8f,
+//                      var BLOOM_THRESHOLD: Float = 0.6f,
+//                      var BLOOM_SOFT_KNEE: Float = 0.7f)
+
+    data class Config(var SIM_RESOLUTION: Int = 256,
+                      var DYE_RESOLUTION: Int = 1024,
                       var DENSITY_DISSIPATION: Float = 0.97f,
-                      var VELOCITY_DISSIPATION: Float = 0.98f,
+                      var VELOCITY_DISSIPATION: Float = 0.97f,
                       var PRESSURE_DISSIPATION: Float = 0.8f,
                       var PRESSURE_ITERATIONS: Int = 20,
-                      var CURL: Float = 30f,
-                      var SPLAT_RADIUS: Float = 0.5f,
-                      var SHADING: Boolean = true,
+                      var CURL: Float = 50f,
+                      var SPLAT_RADIUS: Float = 0.7f,
+                      var SHADING: Boolean = false,
                       var COLORFUL: Boolean = true,
                       var PAUSED: Boolean = false,
                       var BACK_COLOR: RGB = RGB(),
@@ -288,8 +308,8 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
                       var BLOOM: Boolean = false,
                       var BLOOM_ITERATIONS: Int = 8,
                       var BLOOM_RESOLUTION: Int = 256,
-                      var BLOOM_INTENSITY: Float = 0.8f,
-                      var BLOOM_THRESHOLD: Float = 0.6f,
+                      var BLOOM_INTENSITY: Float = 2f,
+                      var BLOOM_THRESHOLD: Float = 0.03f,
                       var BLOOM_SOFT_KNEE: Float = 0.7f)
 
     val config = Config()
@@ -680,14 +700,16 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 
         gl.glViewport(X, Y, width, height);
 
+        initBg()
+        blit(0)
+        init()
+
         if (!config.TRANSPARENT) {
-//            colorProgram.bind();
-//            val bc = RGB(0f, 33f, 100f)//config.BACK_COLOR//config.BACK_COLOR;
-//            gl.glUniform4f(colorProgram.uniforms["color"]?:0, bc.r / 255, bc.g / 255, bc.b / 255, 1f);
-//            blit(0);
-            initBg()
-            blit(0)
-            init()
+            colorProgram.bind();
+            val bc = RGB(0f, 0f, 0f)//config.BACK_COLOR//config.BACK_COLOR;
+            gl.glUniform4f(colorProgram.uniforms["color"]?:0, bc.r / 255, bc.g / 255, bc.b / 255,
+                    0.5f);
+            blit(0);
         }
 
         if (target == null && config.TRANSPARENT) {
