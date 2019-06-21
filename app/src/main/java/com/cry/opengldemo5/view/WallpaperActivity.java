@@ -171,6 +171,9 @@ public class WallpaperActivity extends AppCompatActivity {
                 WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
+            if (data.getExtras() == null) {
+                return;
+            }
             LiveWallpaperInfo liveWallpaperInfo =LiveWallpaperInfo.createImageWallpaperInfo(0,
                     uriTempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM);
             WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
@@ -200,11 +203,11 @@ public class WallpaperActivity extends AppCompatActivity {
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         // 裁剪框的比例
-        intent.putExtra("aspectX", 405);
-        intent.putExtra("aspectY", 720);
+        intent.putExtra("aspectX", getWidthInDp(this));
+        intent.putExtra("aspectY", getHeightInDp(this));
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 405);
-        intent.putExtra("outputY", 720);
+        intent.putExtra("outputX", getWidthInDp(this));
+        intent.putExtra("outputY", getHeightInDp(this));
 
         intent.putExtra("outputFormat", "JPEG");// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
@@ -240,5 +243,22 @@ public class WallpaperActivity extends AppCompatActivity {
             return uri.getPath();
         }
         return null;
+    }
+
+    public static final int getHeightInDp(Context context) {
+        final float height = (float) context.getResources().getDisplayMetrics().heightPixels;
+        int heightInDp = px2dip(context, height);
+        return heightInDp;
+    }
+
+    public static final int getWidthInDp(Context context) {
+        final float width = (float) context.getResources().getDisplayMetrics().widthPixels;
+        int widthInDp = px2dip(context, width);
+        return widthInDp;
+    }
+
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
     }
 }
