@@ -54,14 +54,10 @@ public class WallpaperViewType extends VarietyTypeRecyclerViewAdapter.RecyclerIt
         private void updateView(LiveWallpaperInfo itemData) {
             mLiveWallpaperInfo = itemData;
             if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_IMAGE) {
-                mImageView.setImageBitmap(getBitmap(mLiveWallpaperInfo.mResourcesId));
+                mImageView.setBackgroundResource(mLiveWallpaperInfo.mResourcesId);
             } else if (mLiveWallpaperInfo.mWallpaperType == LiveWallpaperInfo.WallpaperType.WALLPAPER_TYPE_VIDEO) {
                 mImageView.setImageBitmap(getAssetsImage(itemData.mPath));
             }
-        }
-
-        private Bitmap getBitmap(int id) {
-            return BitmapFactory.decodeResource(mContext.getResources(), id);
         }
 
         private Bitmap getAssetsImage(String fileName) {

@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,6 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.WallpaperActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <service
             android:name=".ImageWallpaperService"
@@ -64,6 +66,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.WallpaperPreviewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -3,6 +3,8 @@ package com.cry.opengldemo5.shape
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.opengl.GLES20.GL_EXTENSIONS
 import android.opengl.GLES30
 import android.opengl.GLUtils
 import android.util.Log
@@ -450,6 +452,28 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
                 bitmap = BitmapFactory.decodeResource(mContext.getResources(), liveWallpaperInfo.mResourcesId)
             } else {
                 bitmap = BitmapFactory.decodeFile(liveWallpaperInfo.mPath);
+            }
+
+            var extension = gl.glGetString(GL_EXTENSIONS)
+            if (!extension.contains("GL_AMD_compressed_ATC_texture")) {
+                //针对华为先旋转图片，得到镜像
+                val matrix = Matrix()
+                bitmap?.let {
+                    //上下翻转
+                    matrix.setScale(1f, -1f);
+                    try {
+                        val scaleBitmap = Bitmap.createBitmap(bitmap, 0, 0, it.getWidth(), it.getHeight(), matrix, true)
+                        //左右翻转
+                        matrix.setScale(1f, -1f);
+                        try {
+                            bitmap = Bitmap.createBitmap(bitmap, 0, 0, scaleBitmap.getWidth(), scaleBitmap.getHeight(), matrix, true)
+                        } catch (ex: IllegalArgumentException) {
+                            ex.printStackTrace()
+                        }
+                    } catch (ex: IllegalArgumentException) {
+                        ex.printStackTrace()
+                    }
+                }
             }
 
             bitmap?.let {
