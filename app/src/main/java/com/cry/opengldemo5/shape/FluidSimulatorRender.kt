@@ -232,7 +232,6 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
         initPrograms()
         init()
         initFramebuffers()
-        multipleSplats((Math.random() * 20).toInt() + 5)
     }
 
     override fun onDrawFrame(gl10: GL10?) {
@@ -244,6 +243,11 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
             Log.i("xxx", "errorCode =" + errorCode);
             errorCode = gl.glGetError();
         }
+    }
+
+    fun showDebutAnimation() {
+        splatStack.clear()
+        splatStack.push((Math.random() * 20).toInt() + 5)
     }
 
     var simWidth: Int = 0
