@@ -24,9 +24,14 @@ public class LiveWallpaperInfo implements Serializable {
     public int mSource = Source.SOURCE_UNKNOW; //视频对应的来源
     public int mResourcesId = 0;   //资源id
     public String mPath = "";  //视频对应的路径
+    public String mWallpaperText = ""; //壁纸上的文案
 
     public static LiveWallpaperInfo createImageWallpaperInfo(int resourcesId, String path, int source) {
         return new LiveWallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, resourcesId, path, source);
+    }
+
+    public static LiveWallpaperInfo createImageWallpaperInfo(int resourcesId, String path, int source, String wallpaperText) {
+        return new LiveWallpaperInfo(WallpaperType.WALLPAPER_TYPE_IMAGE, resourcesId, path, source, wallpaperText);
     }
 
     public static LiveWallpaperInfo createVideoWallpaperInfo(String videoPath, int videoSource) {
@@ -34,10 +39,15 @@ public class LiveWallpaperInfo implements Serializable {
     }
 
     private LiveWallpaperInfo(int wallpaperType, int resourcesId, String path, int source) {
+        this(wallpaperType, resourcesId, path, source, "");
+    }
+
+    private LiveWallpaperInfo(int wallpaperType, int resourcesId, String path, int source, String text) {
         mWallpaperType = wallpaperType;
         mPath = path;
         mSource = source;
         mResourcesId = resourcesId;
+        mWallpaperText = text;
     }
 
     @Override

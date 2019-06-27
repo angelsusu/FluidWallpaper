@@ -2,12 +2,14 @@ package com.cry.opengldemo5;
 
 import android.app.ActivityManager;
 import android.app.WallpaperManager;
+import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.opengl.GLSurfaceView;
+import android.os.PowerManager;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,8 +17,10 @@ import android.view.SurfaceHolder;
 
 import com.cry.opengldemo5.listener.ScreenListener;
 import com.cry.opengldemo5.render.DealTouchEvent;
+import com.cry.opengldemo5.render.FluidSimulatorRender;
 import com.cry.opengldemo5.render.GLESUtils;
-import com.cry.opengldemo5.shape.FluidSimulatorRender;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo;
+import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,10 @@ public class ImageWallpaperService extends WallpaperService {
 
     private MyEngine engine;
     private ScreenListener mScreenListener;
+    private int mIndex;
+    private DevicePolicyManager policyManager;
+    private PowerManager mPowerManager;
+    private PowerManager.WakeLock mWakeLock;
 
     @Override
     public void onCreate() {
@@ -53,14 +61,14 @@ public class ImageWallpaperService extends WallpaperService {
     class MyEngine extends Engine {
         //获取SurfaceHolder时调用
 
-        private WallpaperGLSurfaceView glSurfaceView;
+        private WallpaperGLSurfaceView mGLSurfaceView;
         private DealTouchEvent dealTouchEvent;
         private FluidSimulatorRender mRender;
         private boolean mIsUserPresent = true;
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
-            glSurfaceView = new WallpaperGLSurfaceView(ImageWallpaperService.this);
+            mGLSurfaceView = new WallpaperGLSurfaceView(ImageWallpaperService.this);
         }
 
         @Override
@@ -87,10 +95,10 @@ public class ImageWallpaperService extends WallpaperService {
                 //创建一个GLSurfaceView
                 mRender = new FluidSimulatorRender(ImageWallpaperService.this);
                 dealTouchEvent = mRender;
-                glSurfaceView.setDelegate(mRender);
-                glSurfaceView.setEGLContextClientVersion(2);
+                mGLSurfaceView.setDelegate(mRender);
+                mGLSurfaceView.setEGLContextClientVersion(2);
                 //设置自己的Render.Render 内进行图形的绘制
-                glSurfaceView.setRenderer(mRender);
+                mGLSurfaceView.setRenderer(mRender);
             } else {
                 Log.d("ImageWallpaperService", "not SupportEs2");
             }
@@ -98,17 +106,19 @@ public class ImageWallpaperService extends WallpaperService {
             registerScreenListener();
         }
 
-
         private void registerScreenListener() {
             mScreenListener.register(new ScreenListener.ScreenStateListener() {
                  @Override
                  public void onScreenOn() {
-
+                     if (mRender != null) {
+                         mRender.showDebutAnimation();
+                     }
                  }
 
                  @Override
                  public void onScreenOff() {
                      mIsUserPresent = false;
+                     updateWallpaper();
                  }
 
                  @Override
@@ -121,11 +131,48 @@ public class ImageWallpaperService extends WallpaperService {
             });
         }
 
+        private void updateWallpaper() {
+            mIndex ++;
+            if (mIndex > 4) {
+                mIndex = 0;
+            }
+
+            LiveWallpaperInfo liveWallpaperInfo = createImageWallpaperInfo(R.drawable.test_wallpaper_one, "明天会更好");
+            switch (mIndex) {
+                case 0:
+                    liveWallpaperInfo = createImageWallpaperInfo(R.drawable.wallpaper1, "相信明天会更好");
+                    break;
+                case 1:
+                    liveWallpaperInfo = createImageWallpaperInfo(R.drawable.wallpaper2, "相信后天会更好");
+                    break;
+                case 2:
+                    liveWallpaperInfo = createImageWallpaperInfo(R.drawable.wallpaper3, "相信大后天会更好");
+                    break;
+                case 3:
+                    liveWallpaperInfo = createImageWallpaperInfo(R.drawable.wallpaper4, "相信以后会更好");
+                    break;
+                case 4:
+                    liveWallpaperInfo = createImageWallpaperInfo(R.drawable.test_wallpaper_six, "相信未来会更好");
+                    break;
+                default:
+                    break;
+            }
+            LiveWallpaperInfoManager.getInstance().setCurrentWallpaperInfo(liveWallpaperInfo);
+            if (isHome() && mRender != null) {
+                mRender.showDebutAnimation();
+            }
+        }
+
+        private LiveWallpaperInfo createImageWallpaperInfo(int resourcesId, String text) {
+            return LiveWallpaperInfo.createImageWallpaperInfo(resourcesId, "", LiveWallpaperInfo.Source.SOURCE_ASSETS,
+                    text);
+        }
+
         //Surface销毁时回调
         @Override
         public void onSurfaceDestroyed(SurfaceHolder holder) {
             super.onSurfaceDestroyed(holder);
-            glSurfaceView.onWallpaperDestroy();
+            mGLSurfaceView.onWallpaperDestroy();
             Log.d("ImageWallpaperService", "onSurfaceDestroyed");
         }
 
@@ -169,10 +216,8 @@ public class ImageWallpaperService extends WallpaperService {
     }
 
     public static void startWallpaper(Context context) {
-        Intent intent = new Intent(
-                WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                new ComponentName(context, ImageWallpaperService.class));
+        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, ImageWallpaperService.class));
         context.startActivity(intent);
     }
 
@@ -190,7 +235,6 @@ public class ImageWallpaperService extends WallpaperService {
                 PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo ri : resolveInfo) {
             names.add(ri.activityInfo.packageName);
-            Log.d("data", "name=" + ri.activityInfo.packageName);
         }
         return names;
     }
@@ -202,7 +246,6 @@ public class ImageWallpaperService extends WallpaperService {
         ActivityManager mActivityManager =
                 (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> rti = mActivityManager.getRunningTasks(1);
-        Log.e("vvvvvvvvvvvv","getPackageName="+rti.get(0).topActivity.getPackageName());
         return getHomes().contains(rti.get(0).topActivity.getPackageName());
     }
 }

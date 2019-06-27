@@ -1,17 +1,13 @@
-package com.cry.opengldemo5.shape
+package com.cry.opengldemo5.render
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
+import android.graphics.*
 import android.opengl.GLES20.GL_EXTENSIONS
 import android.opengl.GLES30
 import android.opengl.GLUtils
+import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
-import com.cry.opengldemo5.render.DealTouchEvent
-import com.cry.opengldemo5.render.GLESUtils
-import com.cry.opengldemo5.render.ViewGLRender
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfo
 import com.cry.opengldemo5.wallpaper.LiveWallpaperInfoManager
 import java.nio.ByteBuffer
@@ -453,9 +449,12 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
     var bgTexture = 0
     fun initBg() {
         if (bgTexture == 0 || LiveWallpaperInfoManager.getInstance().isChanged) {
-            val textureArr = IntArray(1)
-            gl.glGenTextures(1, textureArr, 0)
-            bgTexture = textureArr[0]
+            if (bgTexture == 0) {
+                val textureArr = IntArray(1)
+                gl.glGenTextures(1, textureArr, 0)
+                bgTexture = textureArr[0]
+            }
+
             gl.glActiveTexture(gl.GL_TEXTURE10)
             gl.glBindTexture(gl.GL_TEXTURE_2D, bgTexture)
             gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_REPEAT);    // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
@@ -464,9 +463,6 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
             gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR);
             gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR);
 
-//            val options = BitmapFactory.Options()
-//            options.inScaled = false   // No pre-scaling
-//            val bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.test_wallpaper_six)
             val liveWallpaperInfo = LiveWallpaperInfoManager.getInstance().currentWallpaperInfo
             if (liveWallpaperInfo == null) {
                 return
@@ -476,6 +472,29 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
                 bitmap = BitmapFactory.decodeResource(mContext.getResources(), liveWallpaperInfo.mResourcesId)
             } else {
                 bitmap = BitmapFactory.decodeFile(liveWallpaperInfo.mPath);
+            }
+
+            val text = liveWallpaperInfo.mWallpaperText
+            if (!TextUtils.isEmpty(text)) {
+                var bitmapConfig: android.graphics.Bitmap.Config? = bitmap.config
+                // set default bitmap config if none
+                if (bitmapConfig == null) {
+                    bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888
+                }
+                // resource bitmaps are imutable, so we need to convert it to mutable one
+                bitmap = bitmap.copy(bitmapConfig, true)
+                val canvas = Canvas(bitmap)
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG) // new antialised Paint
+                paint.color = Color.rgb(255, 255, 255)       // text color - #3D3D3D
+                paint.textSize = 90f          // text size in pixels
+                paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY) // text shadow
+
+                // draw text to the Canvas center
+                val bounds = Rect()
+                paint.getTextBounds(text, 0, text.length, bounds)
+                val x = (bitmap.width - bounds.width()) / 2
+                val y = (bitmap.height + bounds.height()) / 2
+                canvas.drawText(text, x.toFloat(), y.toFloat(), paint)
             }
 
             var extension = gl.glGetString(GL_EXTENSIONS)
@@ -502,6 +521,7 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 
             bitmap?.let {
                 GLUtils.texImage2D(gl.GL_TEXTURE_2D, 0, bitmap, 0)
+                bitmap?.recycle()
             }
 
             //gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
@@ -712,7 +732,7 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
             colorProgram.bind();
             val bc = RGB(0f, 0f, 0f)//config.BACK_COLOR//config.BACK_COLOR;
             gl.glUniform4f(colorProgram.uniforms["color"]?:0, bc.r / 255, bc.g / 255, bc.b / 255,
-                    0.5f);
+                    0.1f);
             blit(0);
         }
 

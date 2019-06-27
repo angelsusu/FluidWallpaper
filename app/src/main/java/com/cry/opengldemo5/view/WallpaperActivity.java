@@ -171,10 +171,10 @@ public class WallpaperActivity extends AppCompatActivity {
                 WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
-            if (data.getExtras() == null) {
-                return;
-            }
-            LiveWallpaperInfo liveWallpaperInfo =LiveWallpaperInfo.createImageWallpaperInfo(0,
+//            if (data.getExtras() == null) {
+//                return;
+//            }
+            LiveWallpaperInfo liveWallpaperInfo = LiveWallpaperInfo.createImageWallpaperInfo(0,
                     uriTempFile.getPath(), LiveWallpaperInfo.Source.SOURCE_USER_ALBUM);
             WallpaperPreviewActivity.startWallpaperPreviewActivity(this, liveWallpaperInfo);
         }
