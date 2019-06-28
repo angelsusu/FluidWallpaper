@@ -474,6 +474,7 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
                 bitmap = BitmapFactory.decodeFile(liveWallpaperInfo.mPath);
             }
 
+            bitmap = Bitmap.createScaledBitmap(bitmap, mWidth, mHeight, true);
             val text = liveWallpaperInfo.mWallpaperText
             if (!TextUtils.isEmpty(text)) {
                 var bitmapConfig: android.graphics.Bitmap.Config? = bitmap.config
@@ -486,7 +487,7 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
                 val canvas = Canvas(bitmap)
                 val paint = Paint(Paint.ANTI_ALIAS_FLAG) // new antialised Paint
                 paint.color = Color.rgb(255, 255, 255)       // text color - #3D3D3D
-                paint.textSize = 90f          // text size in pixels
+                paint.textSize = 50f          // text size in pixels
                 paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY) // text shadow
 
                 // draw text to the Canvas center
@@ -521,7 +522,6 @@ class FluidSimulatorRender(context: Context): ViewGLRender(), DealTouchEvent {
 
             bitmap?.let {
                 GLUtils.texImage2D(gl.GL_TEXTURE_2D, 0, bitmap, 0)
-                bitmap?.recycle()
             }
 
             //gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
